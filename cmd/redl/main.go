@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/base64"
 	"flag"
 	"fmt"
 	"log"
@@ -16,7 +17,7 @@ import (
 )
 
 const (
-	epubCSSFile = "assets/styles/epub.css"
+	epubCSSFile = "epub.css"
 )
 
 var (
@@ -121,7 +122,17 @@ func main() {
 		currentComment = getLongestComment(currentComment.Replies.Comments, filterUser)
 	}
 
+	css := `
+body {
+	font-family: sans-serif;
+}
+`
+
 	ebook := epub.NewEpub(cleanedTitle)
+	epubCSSReferencePath, err := ebook.AddCSS("data:text/css;base64,"+base64.StdEncoding.EncodeToString([]byte(css)), epubCSSFile)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
 
 	ebook.Pkg.AddCreator(authorDisplayName, epub.PropertyRoleAuthor)
 	if len(author2DisplayName) > 0 {
@@ -140,7 +151,7 @@ func main() {
 
 	for i, chapter := range chapters {
 		chapterTitle := fmt.Sprintf("file_%d", i)
-		_, err := ebook.AddSection(chapter, chapterTitle, chapterTitle+".xhtml", epubCSSFile)
+		_, err := ebook.AddSection(chapter, chapterTitle, chapterTitle+".xhtml", epubCSSReferencePath)
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
