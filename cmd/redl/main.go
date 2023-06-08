@@ -71,7 +71,15 @@ func main() {
 	authorDisplayName := post.Post.Author
 	author2DisplayName := ""
 
-	if strings.Contains(post.Post.SubredditName, "Prompt") {
+	var containsPITag bool
+	for _, tag := range tags {
+		if tag == "PI" {
+			containsPITag = true
+			break
+		}
+	}
+
+	if strings.Contains(post.Post.SubredditName, "Prompt") && !containsPITag {
 		log.Println("Detected writing prompt, using longest-first-comment logic")
 
 		tags = append(tags, "Writing Prompt")
