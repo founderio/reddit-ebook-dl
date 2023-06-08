@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 	"strings"
 
 	"founderio.net/reddit-ebook-dl/redl"
@@ -18,11 +17,6 @@ import (
 
 const (
 	epubCSSFile = "epub.css"
-)
-
-var (
-	regexTagsBeginning = regexp.MustCompile("^\\[(.*)\\]")
-	regexTagsEnd       = regexp.MustCompile("\\[(.*)\\]$")
 )
 
 func main() {
@@ -84,7 +78,7 @@ func main() {
 
 		tags = append(tags, "Writing Prompt")
 
-		// Idenfity starting comment + matching user (add as an author)
+		// Identify starting comment + matching user (add as an author)
 		longestPostSoFar := 0
 		filterUser = ""
 		var filterUserName = ""
@@ -97,7 +91,7 @@ func main() {
 			}
 		}
 		if len(filterUser) == 0 {
-			log.Fatalln("Could not idenfity any comments")
+			log.Fatalln("Could not identify any comments")
 		}
 		author2DisplayName = filterUserName
 	} else {
