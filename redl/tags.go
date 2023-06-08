@@ -47,5 +47,5 @@ func FormatPost(body string) string {
 	md := []byte(body)
 	html := string(markdown.ToHTML(md, parser, nil))
 	// After formatting, fix some common errors
-	return strings.ReplaceAll(html, "<br>", "<br/>")
+	return strings.ReplaceAll(strings.ReplaceAll(html, "<hr>", "<hr/>"), "<br>", "<br/>")
 }
