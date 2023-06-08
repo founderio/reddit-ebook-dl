@@ -1,12 +1,12 @@
 module founderio.net/reddit-ebook-dl
 
-go 1.18
+go 1.20
 
 require (
 	github.com/bmaupin/go-epub v0.11.0
-	github.com/go-test/deep v1.0.8
-	github.com/gomarkdown/markdown v0.0.0-20220310201231-552c6011c0b8
-	github.com/joho/godotenv v1.4.0
+	github.com/go-test/deep v1.1.0
+	github.com/gomarkdown/markdown v0.0.0-20230322041520-c84983bdbf2a
+	github.com/joho/godotenv v1.5.1
 	github.com/vartanbeno/go-reddit/v2 v2.0.1
 )
 
@@ -24,4 +24,4 @@ require (
 // Replacement because of https://github.com/vartanbeno/go-reddit/pull/21
 replace github.com/vartanbeno/go-reddit/v2 => github.com/sethjones/go-reddit/v2 v2.0.1-0.20220211043233-9af4e19ee575
 
-replace github.com/bmaupin/go-epub => github.com/founderio/go-epub v0.11.1-0.20220327234436-bf11d823e362
+replace github.com/bmaupin/go-epub => github.com/founderio/go-epub v0.11.1-0.20230608181208-3086d6c329b8
