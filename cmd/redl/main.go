@@ -72,9 +72,11 @@ func main() {
 			break
 		}
 	}
+	var isWritingPrompt bool
 
 	if strings.Contains(post.Post.SubredditName, "Prompt") && !containsPITag {
 		log.Println("Detected writing prompt, using longest-first-comment logic")
+		isWritingPrompt = true
 
 		tags = append(tags, "Writing Prompt")
 
@@ -108,8 +110,8 @@ func main() {
 	}
 
 	currentComment := getLongestComment(post.Comments, filterUser)
-	if currentComment == nil {
-		log.Fatalln("Could not identify first comment")
+	if currentComment == nil && isWritingPrompt {
+		log.Println("Could not identify first comment, prompt may not have any content")
 	}
 	for currentComment != nil {
 		chapters = append(chapters, redl.FormatPost(currentComment.Body))
@@ -169,6 +171,9 @@ func getLongestComment(comments []*reddit.Comment, username string) *reddit.Comm
 	longestPostSoFar := 0
 	var longestPost *reddit.Comment = nil
 	for _, comment := range comments {
+		if comment.AuthorID != username {
+			continue
+		}
 		length := len(comment.Body)
 		if length > longestPostSoFar {
 			longestPostSoFar = length
